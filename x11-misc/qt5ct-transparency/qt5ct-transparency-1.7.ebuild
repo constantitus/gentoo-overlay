@@ -7,7 +7,7 @@ inherit cmake
 
 DESCRIPTION="Qt5 configuration tool, patched to support transparency"
 HOMEPAGE="https://sourceforge.net/projects/qt5ct/"
-SRC_URI="https://download.sourceforge.net/qt5ct/${P}.tar.bz2"
+SRC_URI="https://download.sourceforge.net/qt5ct/qt5ct-1.7.tar.bz2"
 
 PATCH="${FILESDIR}/transparency.patch"
 
