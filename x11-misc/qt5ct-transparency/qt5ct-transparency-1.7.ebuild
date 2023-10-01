@@ -30,7 +30,6 @@ BDEPEND="
 
 src_prepare() {
 	eapply "${PATCH}"
-	eapply_user
 }
 
 src_install() {
