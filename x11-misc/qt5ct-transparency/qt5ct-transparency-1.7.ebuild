@@ -28,6 +28,11 @@ BDEPEND="
 	dev-qt/qtpaths:5
 "
 
+src_prepare() {
+	eapply "${PATCH}"
+	eapply_user
+}
+
 src_install() {
 	cmake_src_install
 
