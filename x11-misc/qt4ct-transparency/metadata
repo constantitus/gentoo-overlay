@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>mgorny@gentoo.org</email>
+		<name>Michał Górny</name>
+	</maintainer>
+	<longdescription>
+        This is a patched version of x11-misc/qt5ct which supports
+        alpha transparency for themes.
+	</longdescription>
+	<upstream>
+		<remote-id type="sourceforge">qt5ct</remote-id>
+	</upstream>
+</pkgmetadata>
