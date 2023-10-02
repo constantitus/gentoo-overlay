@@ -9,7 +9,7 @@ DESCRIPTION="Qt5 configuration tool, patched to support transparency"
 HOMEPAGE="https://sourceforge.net/projects/qt5ct/"
 SRC_URI="https://download.sourceforge.net/qt5ct/qt5ct-1.7.tar.bz2"
 
-PATCH="${FILESDIR}/transparency.patch"
+PATCH="${FILESDIR}/translucent.patch"
 
 LICENSE="BSD-2"
 SLOT="0"
@@ -27,10 +27,15 @@ BDEPEND="
 	dev-qt/linguist-tools:5
 	dev-qt/qtpaths:5
 "
+src_unpack() {
+	default_src_unpack
+	mv /var/tmp/portage/x11-misc/qt5ct-transparency-1.7/work/qt5ct-1.7 /var/tmp/portage/x11-misc/qt5ct-transparency-1.7/work/qt5ct-transparency-1.7
+}
 
 src_prepare() {
-	eapply "${PATCH}"
-	eapply_user
+	default_src_prepare
+	eapply -Np0 "${PATCH}"
+	cmake_src_prepare
 }
 
 src_install() {
@@ -50,3 +55,4 @@ pkg_postinst() {
 		elog
 	fi
 }
+
