@@ -7,7 +7,7 @@ inherit cmake
 
 DESCRIPTION="Qt5 configuration tool, patched to support transparency"
 HOMEPAGE="https://sourceforge.net/projects/qt5ct/"
-SRC_URI="https://download.sourceforge.net/qt5ct/qt5ct-1.7.tar.bz2"
+SRC_URI="https://download.sourceforge.net/qt5ct/qt5ct-${PV}.tar.bz2 -> ${P}.tar.bz2"
 
 PATCH="${FILESDIR}/translucent.patch"
 
@@ -30,7 +30,7 @@ BDEPEND="
 "
 src_unpack() {
 	default_src_unpack
-	mv /var/tmp/portage/x11-misc/qt5ct-transparency-1.7/work/qt5ct-1.7 /var/tmp/portage/x11-misc/qt5ct-transparency-1.7/work/qt5ct-transparency-1.7
+	mv /var/tmp/portage/x11-misc/${P}/work/qt5ct-${PV} /var/tmp/portage/x11-misc/${P}/work/${P}
 }
 
 src_prepare() {
