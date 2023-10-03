@@ -69,6 +69,11 @@ pkg_setup() {
 	use kernel_linux && linux-info_pkg_setup
 }
 
+src_unpack() {
+	default_src_unpack
+	mv /var/tmp/portage/sys-apps/${P}/work/elogind-${PV} /var/tmp/portage/sys-apps/${P}/work/${P}
+}
+
 src_prepare() {
 	if use elibc_musl; then
 		# Some of musl-specific patches break build on the
