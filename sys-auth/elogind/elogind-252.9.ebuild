@@ -10,7 +10,7 @@ if [[ ${PV} = *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/elogind/elogind.git"
 	inherit git-r3
 else
-	SRC_URI="https://github.com/elogind/elogind/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 fi
 
@@ -44,7 +44,6 @@ DEPEND="
 "
 RDEPEND="${DEPEND}
 	!sys-apps/systemd
-	!sys-auth/elogind
 "
 PDEPEND="
 	sys-apps/dbus
@@ -56,6 +55,7 @@ DOCS=( README.md)
 PATCHES=(
 	"${FILESDIR}/${P}-nodocs.patch"
 	"${FILESDIR}/${PN}-252.9-musl-lfs.patch"
+	"${FILESDIR}/${PN}-nvidia.patch"
 )
 
 python_check_deps() {
@@ -69,25 +69,19 @@ pkg_setup() {
 	use kernel_linux && linux-info_pkg_setup
 }
 
-src_unpack() {
-	default_src_unpack
-	mv /var/tmp/portage/sys-auth/${P}/work/elogind-${PV} /var/tmp/portage/sys-auth/${P}/work/${P}
-}
-
 src_prepare() {
 	if use elibc_musl; then
 		# Some of musl-specific patches break build on the
 		# glibc systems (like getdents), therefore those are
 		# only used when the build is done for musl.
 		PATCHES+=(
-			"${FILESDIR}/elogind-${PV}-musl-sigfillset.patch"
-			"${FILESDIR}/elogind-${PV}-musl-statx.patch"
-			"${FILESDIR}/elogind-${PV}-musl-rlim-max.patch"
-			"${FILESDIR}/elogind-${PV}-musl-getdents.patch"
-			"${FILESDIR}/elogind-${PV}-musl-gshadow.patch"
-			"${FILESDIR}/elogind-${PV}-musl-strerror_r.patch"
-			"${FILESDIR}/elogind-${PV}-musl-more-strerror_r.patch"
-			"${FILESDIR}/elogind-nvidia.patch"
+			"${FILESDIR}/${P}-musl-sigfillset.patch"
+			"${FILESDIR}/${P}-musl-statx.patch"
+			"${FILESDIR}/${P}-musl-rlim-max.patch"
+			"${FILESDIR}/${P}-musl-getdents.patch"
+			"${FILESDIR}/${P}-musl-gshadow.patch"
+			"${FILESDIR}/${P}-musl-strerror_r.patch"
+			"${FILESDIR}/${P}-musl-more-strerror_r.patch"
 		)
 	fi
 
@@ -105,8 +99,8 @@ src_configure() {
 	python_setup
 
 	local emesonargs=(
-		-Ddocdir="${EPREFIX}/usr/share/doc/elogind-${PVR}"
-		-Dhtmldir="${EPREFIX}/usr/share/doc/elogind-${PVR}/html"
+		-Ddocdir="${EPREFIX}/usr/share/doc/${PF}"
+		-Dhtmldir="${EPREFIX}/usr/share/doc/${PF}/html"
 		-Dpamlibdir=$(getpam_mod_dir)
 		-Dudevrulesdir="${EPREFIX}$(get_udevdir)"/rules.d
 		--libdir="${EPREFIX}"/usr/$(get_libdir)
@@ -184,3 +178,4 @@ pkg_postinst() {
 		fi
 	done
 }
+
