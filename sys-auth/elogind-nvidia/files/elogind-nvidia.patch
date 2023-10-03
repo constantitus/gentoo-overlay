@@ -1,0 +1,47 @@
+diff --git a/src/login/logind-dbus.c b/src/login/logind-dbus.c
+index a5efadc..fbe7f9a 100644
+--- a/src/login/logind-dbus.c
++++ b/src/login/logind-dbus.c
+@@ -1744,21 +1744,30 @@ static int elogind_execute_shutdown_or_sleep(
+                 strv_free( argv_utmp );
+         }
+
+-        /* Now perform the requested action */
+-        r = elogind_shutdown_or_sleep( m, a->handle );
++		int thr = safe_fork( "(suspender...)", FORK_RESET_SIGNALS | FORK_REOPEN_LOG, NULL );
+
+-        /* no more pending actions, whether this failed or not */
+-        m->delayed_action = NULL;
++		/* no more pending actions, whether this failed or not */
++		m->delayed_action = NULL;
+
+-        if ( r < 0 )
+-                return r;
++		if ( thr < 0 ) {
++			    return log_error_errno( errno, "Failed to fork run %s: %m", "(suspender...)" );
++		}
++
++		if ( thr == 0 ) {
++                /* Now perform the requested action */
++                r = elogind_shutdown_or_sleep( m, a->handle );
++
++                /* As elogind can not rely on a systemd manager to call all
++                 * sleeping processes to wake up, we have to tell them all
++                 * by ourselves.
++                 * Note: execute_shutdown_or_sleep() does not send the
++                 *       signal unless an error occurred. */
++                (void) send_prepare_for( m, a->inhibit_what, false );
++
++				log_debug_elogind("Exiting from %s", "(suspender...)");
+
+-        /* As elogind can not rely on a systemd manager to call all
+-         * sleeping processes to wake up, we have to tell them all
+-         * by ourselves.
+-         * Note: execute_shutdown_or_sleep() does not send the
+-         *       signal unless an error occurred. */
+-        (void) send_prepare_for( m, a->inhibit_what, false );
++				_exit( r );
++		}
+
+         return 0;
+ }
