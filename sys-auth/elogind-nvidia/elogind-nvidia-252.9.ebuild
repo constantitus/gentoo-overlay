@@ -44,7 +44,7 @@ DEPEND="
 "
 RDEPEND="${DEPEND}
 	!sys-apps/systemd
-	!sys-apps/elogind
+	!sys-auth/elogind
 "
 PDEPEND="
 	sys-apps/dbus
@@ -71,7 +71,7 @@ pkg_setup() {
 
 src_unpack() {
 	default_src_unpack
-	mv /var/tmp/portage/sys-apps/${P}/work/elogind-${PV} /var/tmp/portage/sys-apps/${P}/work/${P}
+	mv /var/tmp/portage/sys-auth/${P}/work/elogind-${PV} /var/tmp/portage/sys-auth/${P}/work/${P}
 }
 
 src_prepare() {
