@@ -1,5 +1,7 @@
 ## Packages
 
-**__x11-misc/qt5ct-transparency__** \
-same as qt5ct-svn-translucent from the AUR
+**x11-misc/qt5ct-transparency** \
+same as qt5ct-svn-translucent from the AUR \
+
+
 
