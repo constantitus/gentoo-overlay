@@ -19,7 +19,7 @@ fi
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="evdev experimental jack +libinput +logind mpd mpris network +popups pipewire pulseaudio sndio systemd test tray +udev upower wifi"
+IUSE="evdev experimental jack +libinput +logind mpd mpris network +popups pipewire pulseaudio sndio systemd test tray +udev upower wifi hyprland"
 REQUIRED_USE="
 	mpris? ( logind )
 	upower? ( logind )
@@ -75,14 +75,12 @@ DEPEND="${RDEPEND}
 	test? ( dev-cpp/catch:0 )
 "
 
-
-EMESON_BUILDTYPE="plain"
-
 src_prepare() {
-	eapply "${FILESDIR}/workspaces.patch"
-	default_src_prepare
+    if use hyprland; then
+        PATCHES+=("${FILESDIR}/${PN}-hyprland.patch")
+        fi
+    default
 }
-
 
 src_configure() {
 	local emesonargs=(
