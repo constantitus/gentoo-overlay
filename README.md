@@ -11,4 +11,6 @@ Don't use unless needed.
 **gui-apps/waybar** \
 [patched](https://wiki.hyprland.org/Useful-Utilities/Status-Bars/#waybar) for Hyprland
 
+**gui-libs/xdg-desktop-portal-hyprland**
 
+**gui-wm/hyprland**
