@@ -1,0 +1,39 @@
+From: Piotr Sobiech <piotr@sobie.ch>
+Date: Wed, 25 Oct 2023 09:55:54 +0200
+Subject: [PATCH] wezterm
+
+---
+ src/Window.cpp         | 3 +--
+ src/events/Windows.cpp | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/src/Window.cpp b/src/Window.cpp
+index 7825e7d3..34ecaa33 100644
+--- a/src/Window.cpp
++++ b/src/Window.cpp
+@@ -325,8 +325,7 @@ void CWindow::updateSurfaceOutputs() {
+         m_pWLSurface.wlr(),
+         [](wlr_surface* surf, int x, int y, void* data) {
+             const auto PMONITOR = g_pCompositor->getMonitorFromID(((CWindow*)data)->m_iMonitorID);
+-            g_pCompositor->setPreferredScaleForSurface(surf, PMONITOR ? PMONITOR->scale : 1.f);
+-            g_pCompositor->setPreferredTransformForSurface(surf, PMONITOR->transform);
++            g_pProtocolManager->m_pFractionalScaleProtocolManager->setPreferredScaleForSurface(surf, PMONITOR ? PMONITOR->scale : 1.f);
+         },
+         this);
+ }
+diff --git a/src/events/Windows.cpp b/src/events/Windows.cpp
+index 89b327b0..df8475d2 100644
+--- a/src/events/Windows.cpp
++++ b/src/events/Windows.cpp
+@@ -646,8 +646,7 @@ void Events::listener_mapWindow(void* owner, void* data) {
+     if (PWORKSPACE->m_bHasFullscreenWindow && !PWINDOW->m_bIsFullscreen && !PWINDOW->m_bIsFloating)
+         PWINDOW->m_fAlpha.setValueAndWarp(0.f);
+ 
+-    g_pCompositor->setPreferredScaleForSurface(PWINDOW->m_pWLSurface.wlr(), PMONITOR->scale);
+-    g_pCompositor->setPreferredTransformForSurface(PWINDOW->m_pWLSurface.wlr(), PMONITOR->transform);
++    g_pProtocolManager->m_pFractionalScaleProtocolManager->setPreferredScaleForSurface(PWINDOW->m_pWLSurface.wlr(), PMONITOR->scale);
+ }
+ 
+ void Events::listener_unmapWindow(void* owner, void* data) {
+-- 
+2.42.0
