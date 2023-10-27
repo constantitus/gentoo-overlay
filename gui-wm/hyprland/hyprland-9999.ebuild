@@ -63,7 +63,6 @@ src_prepare() {
 	if ! [[ ${STDLIBVER} -ge 12 ]]; then
 		die "Hyprland requires >=sys-devel/gcc-12.1.0 to build"
 	fi
-	eapply hyprland-wezterm-revert.patch
 
 	default
 }
