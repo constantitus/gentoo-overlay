@@ -14,3 +14,4 @@ Don't use unless needed.
 **gui-libs/xdg-desktop-portal-hyprland**
 
 **gui-wm/hyprland**
+currently patched to revert a commit which would break wezterm
