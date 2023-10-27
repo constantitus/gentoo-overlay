@@ -55,12 +55,15 @@ BDEPEND="
 	>=gui-libs/wlroots-0.16.0[X?]
 "
 
+patches=("${FILESDIR}/hyprland-wezterm-revert.patch")
+
 src_prepare() {
 	STDLIBVER=$(echo '#include <string>' | $(tc-getCXX) -x c++ -dM -E - | \
 					grep GLIBCXX_RELEASE | sed 's/.*\([1-9][0-9]\)/\1/')
 	if ! [[ ${STDLIBVER} -ge 12 ]]; then
 		die "Hyprland requires >=sys-devel/gcc-12.1.0 to build"
 	fi
+	eapply hyprland-wezterm-revert.patch
 
 	default
 }
