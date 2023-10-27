@@ -55,7 +55,7 @@ BDEPEND="
 	>=gui-libs/wlroots-0.16.0[X?]
 "
 
-patches=("${FILESDIR}/hyprland-wezterm-revert.patch")
+PATCHES=("${FILESDIR}/hyprland-wezterm-revert.patch")
 
 src_prepare() {
 	STDLIBVER=$(echo '#include <string>' | $(tc-getCXX) -x c++ -dM -E - | \
