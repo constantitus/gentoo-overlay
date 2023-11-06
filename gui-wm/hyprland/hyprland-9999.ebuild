@@ -55,8 +55,6 @@ BDEPEND="
 	>=gui-libs/wlroots-0.16.0[X?]
 "
 
-PATCHES=("${FILESDIR}/hyprland-wezterm-revert.patch")
-
 src_prepare() {
 	STDLIBVER=$(echo '#include <string>' | $(tc-getCXX) -x c++ -dM -E - | \
 					grep GLIBCXX_RELEASE | sed 's/.*\([1-9][0-9]\)/\1/')
